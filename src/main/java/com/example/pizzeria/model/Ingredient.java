@@ -25,4 +25,8 @@ public class Ingredient implements Serializable {
 	
 	private List<Pizza> pizzas = new ArrayList<>();
 	
+	public void setId(String id)
+	{
+		this.id = id;
+	}
 }

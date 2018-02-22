@@ -1,12 +1,13 @@
 package com.example.pizzeria.model;
 
-import java.awt.List;
+import java.util.List;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class Ingredient implements Serializable {
 	@Id
 	private String id;
 	
+	@Indexed(unique = true)
 	private String nombre;
 	
 	private List<Pizza> pizzas = new ArrayList<>();

@@ -3,6 +3,7 @@ package com.example.pizzeria.model;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class Pizza implements Serializable{
 	
 	private List<Ingredient> ingredients;
 	
+	@Indexed(unique = true)
 	private String name;
 	
 }

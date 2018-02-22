@@ -1,11 +1,8 @@
 package com.example.pizzeria.model;
 
-import java.util.List;
-import java.io.Serializable;
-import java.util.ArrayList;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import java.io.Serializable;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;

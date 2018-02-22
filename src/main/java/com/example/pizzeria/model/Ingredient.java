@@ -22,9 +22,7 @@ public class Ingredient implements Serializable {
 	private String id;
 	
 	private String nombre;
-	
-	private List<Pizza> pizzas = new ArrayList<>();
-	
+		
 	public void setId(String id)
 	{
 		this.id = id;

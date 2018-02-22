@@ -1,6 +1,7 @@
 package com.example.pizzeria.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -18,7 +19,7 @@ public class Pizza implements Serializable{
 
 	private String id;
 	
-	private List<Ingredient> ingredients;
+	private List<Ingredient> ingredients = new ArrayList<>();
 	
 	@Indexed(unique = true)
 	private String name;

@@ -18,11 +18,9 @@ public class Ingredient implements Serializable {
 	
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
+	
 	private String id;
 	
-	@Indexed(unique = true)
 	private String nombre;
 	
 	private List<Pizza> pizzas = new ArrayList<>();

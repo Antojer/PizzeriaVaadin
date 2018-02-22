@@ -21,7 +21,6 @@ public class Pizza implements Serializable{
 	
 	private List<Ingredient> ingredients = new ArrayList<>();
 	
-	@Indexed(unique = true)
 	private String name;
 	
 }

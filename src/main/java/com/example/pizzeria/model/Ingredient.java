@@ -21,7 +21,7 @@ public class Ingredient implements Serializable {
 	
 	private String id;
 	
-	private String nombre;
+	private String name;
 		
 	public void setId(String id)
 	{

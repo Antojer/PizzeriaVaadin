@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.pizzeria.dao.IngredientDAO;
 import com.example.pizzeria.exception.NotFoundExcept;
 import com.example.pizzeria.model.Ingredient;
 
+@Service
 public class IngredientServiceImpl implements IngredientService {
 	
 	@Autowired

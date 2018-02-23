@@ -55,6 +55,8 @@ public class VaadinUI extends UI{
 	Button save = new Button("Add ingredient", event -> addIngredient());
 
 	private TextField nameField = new TextField("Pizza name");
+	private TextField idFieldPizza = new TextField("Pizza id");
+	private TextField idFieldIngredientForPizza = new TextField("Ingredient id");
 
 
 	private VerticalLayout pizzaContent = new VerticalLayout();
@@ -87,7 +89,7 @@ public class VaadinUI extends UI{
 		
 		gridPizza.addColumn(ingredient -> ingredient.getId()).setCaption("Pizza ID");
 		gridPizza.addColumn(ingredient -> ingredient.getName()).setCaption("Name");
-		gridPizza.addColumn(ingredient -> ingredient.getIngredients()).setCaption("Ingredients");
+		gridPizza.addColumn(ingredient -> ingredient.ingredientsToString()).setCaption("Ingredients").setExpandRatio(1);
 		
 		refresh.setIcon(VaadinIcons.REFRESH);
 		refresh.addStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -101,13 +103,25 @@ public class VaadinUI extends UI{
 		pizzaContent.addComponent(gridPizza);
 		pizzaContent.addComponent(new Label("Añadir pizza"));
 		pizzaContent.addComponent(nameField);
-		Button savePizza = new Button("guardar", event ->  savePizza());
+		Button savePizza = new Button("Guardar", event ->  savePizza());
 		pizzaContent.addComponent(savePizza);
+		pizzaContent.addComponent(new Label("Añadir ingrediente a pizza"));
+		pizzaContent.addComponent(idFieldPizza);
+		pizzaContent.addComponent(idFieldIngredientForPizza);
+		Button addIngredientToPizza = new Button("Añadir Ingrediente", event ->  addIngredientToPizza());
+		pizzaContent.addComponent(addIngredientToPizza);
 	}
 	
 	public void savePizza() {
 		Pizza pizza = new Pizza();
 		pizza.setName(nameField.getValue());
+		pizzaDao.save(pizza);
+	}
+	
+	public void addIngredientToPizza() {
+		Pizza pizza = pizzaDao.findOne(idFieldPizza.getValue());
+		Ingredient ingredient = ingredientDao.findOne(idFieldIngredientForPizza.getValue());
+		pizza.getIngredients().add(ingredient);
 		pizzaDao.save(pizza);
 	}
 	

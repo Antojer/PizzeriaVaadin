@@ -3,6 +3,7 @@ package com.example.pizzeria.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,5 +22,10 @@ public class Pizza implements Serializable{
 	private List<Ingredient> ingredients = new ArrayList<>();
 	
 	private String name;
+	
+	public String ingredientsToString() {
+		return ingredients.stream().map(x->x.getName())
+            .collect(Collectors.joining(", "));
+	}
 	
 }

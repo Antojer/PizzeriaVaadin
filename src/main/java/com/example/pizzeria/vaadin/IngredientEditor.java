@@ -14,8 +14,10 @@ public class IngredientEditor extends VerticalLayout{
 	private static final long serialVersionUID = 1L;
 
 	private IngredientDAO ingredientDAO;
+	
 	private Ingredient ingredient;
 	
 	TextField name = new TextField("Ingredient name");
+	
 	
 }

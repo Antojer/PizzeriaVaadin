@@ -11,7 +11,6 @@ import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.ingredient.IngredientService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.spring.annotation.SpringUI;
@@ -45,35 +44,46 @@ public class VaadinUI extends UI{
 	@Autowired
 	IngredientService ingredientService;
 	
-	private Button refresh = new Button("AQUI", this::refresh);
+	private Button refresh = new Button("Actualizar lista", this::refresh);
 	
-	private Button addNew = new Button("", this::add);
+	//private Button addNew = new Button("", this::addIngredient);
 	
 	TextField name = new TextField("Ingredient name");
 	
-	Button save = new Button("Save");
+	Button save = new Button("Add ingredient", event -> addIngredient());
 
 	@Override
 	protected void init(VaadinRequest request) {
 		
-		
-		VerticalLayout ingredientContent = new VerticalLayout();
-//		setContent(ingredientContent);
-		
+		/*
+		 *INGREDIENTES 
+		 */
+		VerticalLayout ingredientContent = new VerticalLayout();		
 		ingredientContent.addComponent(gridIngredient);
-		ingredientContent.addComponent(new Label("Añadir ingrediente"));
-		ingredientContent.addComponent(new TextField());
 		ingredientContent.addComponent(refresh);
+		ingredientContent.addComponent(new Label("Añadir ingrediente"));
+		ingredientContent.addComponent(name);
 		ingredientContent.addComponent(save);
+		
+		/*
+		 * PIZZAS
+		 */
 		
 		VerticalLayout pizzaContent = new VerticalLayout();
 		pizzaContent.addComponent(gridPizza);
 		
-
+		/*
+		 * WEB
+		 */
+		
 		HorizontalLayout webContent = new HorizontalLayout();
 		webContent.addComponent(new Label("Bienvenido a Pizzería Borrego!"));
 		webContent.addComponent(ingredientContent);
 		webContent.addComponent(pizzaContent);
+		
+		/*
+		 * 
+		 */
 		
 		setContent(webContent);
 		
@@ -89,6 +99,11 @@ public class VaadinUI extends UI{
 		
 		refresh.setIcon(VaadinIcons.REFRESH);
 		refresh.addStyleName(ValoTheme.BUTTON_PRIMARY);
+		
+		//
+		
+		
+		//addNew.addClickListener(ingredientService -> ingredientService.);
 		
 		listIngredients();
 		listPizzas();
@@ -107,8 +122,10 @@ public class VaadinUI extends UI{
 		gridPizza.setItems(pizzaDao.findAll());
 	}
 	
-	private void add(ClickEvent clickEvent){
-		
+	private void addIngredient(){
+		Ingredient ingredient = new Ingredient();
+		ingredient.setName(name.getValue());
+		ingredientDao.save(ingredient);
 	}
 
 

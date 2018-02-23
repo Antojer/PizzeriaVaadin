@@ -13,6 +13,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.data.Binder;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
@@ -60,6 +61,8 @@ public class VaadinUI extends UI{
 	
 	private VerticalLayout pizzaContent = new VerticalLayout();
 	
+	private Label title = new Label("Bienvenido a Pizzería Borrego!");
+	
 	@Override
 	protected void init(VaadinRequest request) {
 	
@@ -67,9 +70,8 @@ public class VaadinUI extends UI{
 		setIngredientLayout();
 
 		setPizzaLayout();
-
 		HorizontalLayout webContent = new HorizontalLayout();
-		webContent.addComponent(new Label("Bienvenido a Pizzería Borrego!"));
+		webContent.addComponent(title);
 		webContent.addComponent(refresh);
 		webContent.addComponent(ingredientContent);
 		webContent.addComponent(pizzaContent);

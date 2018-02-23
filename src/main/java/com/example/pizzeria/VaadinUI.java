@@ -53,6 +53,8 @@ public class VaadinUI extends UI{
 	private TextField nameField = new TextField("Pizza name");
 	private TextField idFieldPizza = new TextField("Pizza id");
 	private TextField idFieldIngredientForPizza = new TextField("Ingredient id");
+	private TextField idPizzaDelete = new TextField("Pizza id");
+	private TextField idIngredientDelete = new TextField("Ingredient id");
 
 	private VerticalLayout ingredientContent = new VerticalLayout();		
 	
@@ -116,6 +118,12 @@ public class VaadinUI extends UI{
 		ingredientContent.addComponent(new Label("Añadir ingrediente"));
 		ingredientContent.addComponent(name);
 		ingredientContent.addComponent(save);	
+		ingredientContent.addComponent(new Label("Eliminar ingrediente"));
+		ingredientContent.addComponent(idIngredientDelete);
+		Button deleteIngredient = new Button("Eliminar", event ->  deleteIngredient());
+		ingredientContent.addComponent(deleteIngredient);
+		
+		
 		
 	}
 
@@ -164,8 +172,9 @@ public class VaadinUI extends UI{
 		ingredientDao.save(ingredient);
 	}
 	
-	private void deleteIngredient(String id)
+	private void deleteIngredient()
 	{
+		String id = idIngredientDelete.getValue();
 		ingredientDao.delete(id);
 	}
 

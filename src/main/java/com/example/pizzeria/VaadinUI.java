@@ -16,6 +16,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Grid;
@@ -72,13 +73,28 @@ public class VaadinUI extends UI{
 		setIngredientLayout();
 
 		setPizzaLayout();
-		HorizontalLayout webContent = new HorizontalLayout();
-		webContent.addComponent(title);
-		webContent.addComponent(refresh);
-		webContent.addComponent(ingredientContent);
-		webContent.addComponent(pizzaContent);
-	
 		
+		HorizontalLayout dataContent = new HorizontalLayout();
+		dataContent.addComponent(ingredientContent);
+		dataContent.addComponent(pizzaContent);
+		
+		VerticalLayout titleContent = new VerticalLayout();
+		titleContent.addComponent(title);
+		
+		HorizontalLayout refreshContent = new HorizontalLayout();
+		titleContent.addComponent(refresh);
+		
+		HorizontalLayout headerContent = new HorizontalLayout();
+		headerContent.addComponent(titleContent);
+		headerContent.addComponent(refreshContent);
+			
+		VerticalLayout webContent = new VerticalLayout();
+		webContent.addComponent(headerContent);
+		webContent.addComponent(dataContent);
+		
+		headerContent.setComponentAlignment(refreshContent, Alignment.TOP_CENTER);
+		webContent.setComponentAlignment(headerContent, Alignment.TOP_CENTER);
+		webContent.setComponentAlignment(dataContent, Alignment.TOP_CENTER);
 		setContent(webContent);
 		
 		gridIngredient.addColumn(ingredient -> ingredient.getId()).setCaption("Ingredient ID");
@@ -150,6 +166,11 @@ public class VaadinUI extends UI{
 		Ingredient ingredient = new Ingredient();
 		ingredient.setName(name.getValue());
 		ingredientDao.save(ingredient);
+	}
+	
+	private void deleteIngredient(String id)
+	{
+		ingredientDao.delete(id);
 	}
 
 }

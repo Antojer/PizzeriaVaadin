@@ -11,13 +11,17 @@ import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.ingredient.IngredientService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -45,16 +49,33 @@ public class VaadinUI extends UI{
 	
 	private Button addNew = new Button("", this::add);
 	
-
+	TextField name = new TextField("Ingredient name");
+	
+	Button save = new Button("Save");
 
 	@Override
 	protected void init(VaadinRequest request) {
 		
-		VerticalLayout content = new VerticalLayout();
-		setContent(content);
-		content.addComponent(new Label("Bienvenido a Pizzería Borrego!"));
-		content.addComponent(gridIngredient);
-		content.addComponent(gridPizza);
+		
+		VerticalLayout ingredientContent = new VerticalLayout();
+//		setContent(ingredientContent);
+		
+		ingredientContent.addComponent(gridIngredient);
+		ingredientContent.addComponent(new Label("Añadir ingrediente"));
+		ingredientContent.addComponent(new TextField());
+		ingredientContent.addComponent(refresh);
+		ingredientContent.addComponent(save);
+		
+		VerticalLayout pizzaContent = new VerticalLayout();
+		pizzaContent.addComponent(gridPizza);
+		
+
+		HorizontalLayout webContent = new HorizontalLayout();
+		webContent.addComponent(new Label("Bienvenido a Pizzería Borrego!"));
+		webContent.addComponent(ingredientContent);
+		webContent.addComponent(pizzaContent);
+		
+		setContent(webContent);
 		
 		gridIngredient.addColumn(ingredient -> ingredient.getId()).setCaption("Ingredient ID");
 		gridIngredient.addColumn(ingredient -> ingredient.getName()).setCaption("Name");

@@ -16,6 +16,6 @@ public class IngredientEditor extends VerticalLayout{
 	private IngredientDAO ingredientDAO;
 	private Ingredient ingredient;
 	
-	//TextField name = new TextField("Ingredient name";)
+	TextField name = new TextField("Ingredient name");
 	
 }

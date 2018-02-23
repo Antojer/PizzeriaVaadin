@@ -10,6 +10,7 @@ import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.ingredient.IngredientService;
 import com.vaadin.annotations.Theme;
+import com.vaadin.data.Binder;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
@@ -51,8 +52,12 @@ public class VaadinUI extends UI{
 	
 	TextField name = new TextField("Ingredient name");
 	
+	private TextField nameField = new TextField();
+	
 	Button save = new Button("Save");
 
+	private VerticalLayout pizzaContent = new VerticalLayout();
+	
 	@Override
 	protected void init(VaadinRequest request) {
 		
@@ -64,12 +69,10 @@ public class VaadinUI extends UI{
 		ingredientContent.addComponent(new Label("Añadir ingrediente"));
 		ingredientContent.addComponent(new TextField());
 		ingredientContent.addComponent(refresh);
-		ingredientContent.addComponent(save);
+		ingredientContent.addComponent(save);		
 		
-		VerticalLayout pizzaContent = new VerticalLayout();
-		pizzaContent.addComponent(gridPizza);
+		setPizzaLayout();
 		
-
 		HorizontalLayout webContent = new HorizontalLayout();
 		webContent.addComponent(new Label("Bienvenido a Pizzería Borrego!"));
 		webContent.addComponent(ingredientContent);
@@ -95,9 +98,22 @@ public class VaadinUI extends UI{
 		
 	}
 	
+	private void setPizzaLayout() {
+		pizzaContent.addComponent(gridPizza);
+		pizzaContent.addComponent(nameField);
+		Button savePizza = new Button("guardar", event ->  savePizza());
+		pizzaContent.addComponent(savePizza);
+	}
+	
+	public void savePizza() {
+		Pizza pizza = new Pizza();
+		pizza.setName(nameField.getValue());
+		pizzaDao.save(pizza);
+	}
+	
 	public void refresh(ClickEvent clickEvent) {
 		listIngredients();
-}
+	}
 	
 	private void listIngredients() {
 		gridIngredient.setItems(ingredientDao.findAll());
@@ -110,6 +126,5 @@ public class VaadinUI extends UI{
 	private void add(ClickEvent clickEvent){
 		
 	}
-
 
 }

@@ -1,7 +1,5 @@
 package com.example.pizzeria;
 
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.pizzeria.dao.IngredientDAO;
@@ -10,11 +8,8 @@ import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.ingredient.IngredientService;
 import com.vaadin.annotations.Theme;
-import com.vaadin.data.Binder;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.shared.ui.dd.HorizontalDropLocation;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -22,7 +17,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -47,7 +41,7 @@ public class VaadinUI extends UI{
 	@Autowired
 	IngredientService ingredientService;
 	
-	private Button refresh = new Button("Actualizar lista", this::refresh);
+	private Button refresh = new Button("Actualizar las Listas.", this::refresh);
 	
 	
 	
@@ -81,7 +75,9 @@ public class VaadinUI extends UI{
 		VerticalLayout titleContent = new VerticalLayout();
 		titleContent.addComponent(title);
 		
-		HorizontalLayout refreshContent = new HorizontalLayout();
+		VerticalLayout refreshContent = new VerticalLayout();
+		HorizontalLayout refreshHorizontalContent = new HorizontalLayout();
+		refreshContent.addComponent(refreshHorizontalContent);
 		titleContent.addComponent(refresh);
 		
 		HorizontalLayout headerContent = new HorizontalLayout();
@@ -92,7 +88,7 @@ public class VaadinUI extends UI{
 		webContent.addComponent(headerContent);
 		webContent.addComponent(dataContent);
 		
-		headerContent.setComponentAlignment(refreshContent, Alignment.TOP_CENTER);
+		refreshContent.setComponentAlignment(refreshHorizontalContent, Alignment.TOP_CENTER);
 		webContent.setComponentAlignment(headerContent, Alignment.TOP_CENTER);
 		webContent.setComponentAlignment(dataContent, Alignment.TOP_CENTER);
 		setContent(webContent);

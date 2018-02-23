@@ -52,7 +52,7 @@ public class VaadinUI extends UI{
 	
 	TextField name = new TextField("Ingredient name");
 	
-	private TextField nameField = new TextField();
+	private TextField nameField = new TextField("Pizza name");
 	
 	Button save = new Button("Save");
 

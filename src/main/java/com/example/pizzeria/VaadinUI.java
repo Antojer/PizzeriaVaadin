@@ -53,20 +53,18 @@ public class VaadinUI extends UI{
 	
 
 	Button save = new Button("Add ingredient", event -> addIngredient());
-
+	
 	private TextField nameField = new TextField("Pizza name");
 
-
+	private VerticalLayout ingredientContent = new VerticalLayout();		
+	
 	private VerticalLayout pizzaContent = new VerticalLayout();
 	
 	@Override
 	protected void init(VaadinRequest request) {
 	
-		VerticalLayout ingredientContent = new VerticalLayout();		
-		ingredientContent.addComponent(gridIngredient);
-		ingredientContent.addComponent(new Label("Añadir ingrediente"));
-		ingredientContent.addComponent(name);
-		ingredientContent.addComponent(save);	
+		
+		setIngredientLayout();
 
 		setPizzaLayout();
 
@@ -97,6 +95,14 @@ public class VaadinUI extends UI{
 		
 	}
 	
+	private void setIngredientLayout() {
+		ingredientContent.addComponent(gridIngredient);
+		ingredientContent.addComponent(new Label("Añadir ingrediente"));
+		ingredientContent.addComponent(name);
+		ingredientContent.addComponent(save);	
+		
+	}
+
 	private void setPizzaLayout() {
 		pizzaContent.addComponent(gridPizza);
 		pizzaContent.addComponent(new Label("Añadir pizza"));

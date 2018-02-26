@@ -70,28 +70,28 @@ public class VaadinUI extends UI{
 	/*
 	 * Buttons
 	 */
-	Button addIngredientButton = new Button("Add ingredient", event -> {
+	Button addIngredientButton = new Button("Añadir ingrediente", event -> {
 		try {
 			saveIngredient(event);
 		} catch (InvalidDataException | NotFoundException e) {
 			Notification.show(e.getMessage());
 		}
 	});
-	Button deleteIngredientButton = new Button("Delete ingredient", event ->  {
+	Button deleteIngredientButton = new Button("Borrar ingrediente", event ->  {
 		try {
 			deleteIngredient(event);
 		} catch (NotFoundException e) {
 			Notification.show(e.getMessage());
 		}
 	});
-	Button addPizzaButton = new Button("Add pizza", event ->  {
+	Button addPizzaButton = new Button("Añadir pizza", event ->  {
 		try {
 			savePizza(event);
 		} catch (InvalidDataException | NotFoundException e) {
 			Notification.show(e.getMessage());
 		}
 	});
-	Button deletePizzaButton = new Button("Delete pizza", event ->  {
+	Button deletePizzaButton = new Button("Borrar pizza", event ->  {
 		try {
 			deletePizza(event);
 		} catch (NotFoundException e) {
@@ -99,7 +99,7 @@ public class VaadinUI extends UI{
 		}
 	});
 	
-	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  {
+	Button addIngredientToPizzaButton = new Button("Añadir ingrediente", event ->  {
 	try {
 		saveIngredientToPizza(event);
 	} catch (NotFoundException | InvalidDataException e) {
@@ -139,13 +139,11 @@ public class VaadinUI extends UI{
 		try {
 			setGridIngredient();
 		} catch (NotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}		
 		try {
 			setGridPizza();
 		} catch (NotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -34,7 +34,8 @@ public class IngredientServiceImpl implements IngredientService {
 	public Ingredient create(Ingredient ingredient) throws InvalidDataException {
 		if (validate(ingredient))
 			return ingredientDAO.save(ingredient);
-		throw new InvalidDataException("Error, faltan datos");
+		else
+			throw new InvalidDataException("Error, faltan datos");
 	}
 
 	private boolean validate(Ingredient ingredient) {

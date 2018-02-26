@@ -45,7 +45,8 @@ public class PizzaServiceImpl implements PizzaService{
 	public void update(Pizza pizza) throws InvalidDataException {
 		if(validate(pizza))
 			pizzaDao.save(pizza);
-		throw new InvalidDataException("Error, faltan datos");
+		else
+			throw new InvalidDataException("Error, faltan datos");
 	}
 	
 	@Override

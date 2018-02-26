@@ -90,8 +90,18 @@ public class TestPizzaService {
 		pizzaService.create(new Pizza());
 	}
 	
+	@Test
+	public void updateFine() throws InvalidDataException{
+		pizzaService.update(pizza);
+	}
+	
 	@Test(expected=InvalidDataException.class)
-	public void update() throws InvalidDataException{
+	public void updateWrong() throws InvalidDataException{
 		pizzaService.update(new Pizza());
+	}
+	
+	@Test
+	public void delete() throws InvalidDataException{
+		pizzaService.delete(id);
 	}
 }

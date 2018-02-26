@@ -140,8 +140,8 @@ public class VaadinUI extends UI{
 		
 		webContent.addComponent(headerContent);
 		webContent.addComponent(dataContent);
-		//webContent.setComponentAlignment(headerContent, Alignment.TOP_CENTER);
-		//webContent.setComponentAlignment(dataContent, Alignment.TOP_CENTER);
+		webContent.setComponentAlignment(headerContent, Alignment.TOP_CENTER);
+		webContent.setComponentAlignment(dataContent, Alignment.TOP_CENTER);
 	}
 
 	private void setHeaderContent() {
@@ -150,7 +150,6 @@ public class VaadinUI extends UI{
 	}
 
 	private void setRefreshContent() {
-		//refreshContent.setComponentAlignment(refreshHorizontalContent, Alignment.TOP_CENTER);
 		refreshContent.addComponent(refreshHorizontalContent);
 	}
 

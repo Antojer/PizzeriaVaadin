@@ -102,9 +102,10 @@ public class TestIngredientService {
 	
 	@Test(expected = InvalidDataException.class)
 	public void testUpdateIngredientError() throws InvalidDataException {
-		ingredientService.update(ID, new Ingredient());
+		ingredientService.update(ID, new Ingredient()); 
 	}
-		
+	
+	@Test
 	public void testDeleteIngredient() {
 		ingredientService.delete(ID);
 	}

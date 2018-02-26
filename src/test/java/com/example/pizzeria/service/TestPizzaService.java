@@ -75,8 +75,7 @@ public class TestPizzaService {
 	
 	@Test(expected = NotFoundException.class)
 	public void testFindByIdWrong() throws NotFoundException{
-		Mockito.when(pizzaDao.findOne(id)).thenReturn(null);
-		pizzaService.findById(id);
+		pizzaService.findById("");
 	}
 	
 	@Test

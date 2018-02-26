@@ -284,6 +284,7 @@ public class VaadinUI extends UI{
 		Ingredient ingredient = ingredientService.findById(pizzaIngredientIdTF.getValue());
 		pizza.getIngredients().add(ingredient);
 		pizzaService.create(pizza);
+		pizzaIngredientIdTF.setValue("");
 		this.refresh(clickEvent);
 	}
 	

@@ -164,7 +164,7 @@ public class VaadinUI extends UI{
 	private void setGridPizza() throws NotFoundException {
 		gridPizza.addColumn(ingredient -> ingredient.getId()).setCaption("Pizza ID");
 		gridPizza.addColumn(ingredient -> ingredient.getName()).setCaption("Name");
-		gridPizza.addColumn(ingredient -> ingredient.ingredientsToString()).setCaption("Ingredients").setExpandRatio(1);
+		gridPizza.addColumn(ingredient -> ingredient.ingredientsToString()).setCaption("Ingredients").setExpandRatio(5);
 		listPizzas();
 	}
 

@@ -69,7 +69,6 @@ public class VaadinUI extends UI{
 	/*
 	 * Buttons
 	 */
-	Button refresh = new Button("Actualizar las Listas.", this::refresh);
 	Button addIngredientButton = new Button("Add ingredient", event -> addIngredient(event));
 	Button deleteIngredientButton = new Button("Delete ingredient", event ->  deleteIngredient(event));
 	Button addPizzaButton = new Button("Add pizza", event ->  savePizza(event));
@@ -115,8 +114,6 @@ public class VaadinUI extends UI{
 		addPizzaButton.setIcon(VaadinIcons.CHECK_CIRCLE);
 		deletePizzaButton.setIcon(VaadinIcons.CLOSE_CIRCLE);
 		addIngredientToPizzaButton.setIcon(VaadinIcons.CHECK_CIRCLE);
-		refresh.setIcon(VaadinIcons.REFRESH);
-		refresh.addStyleName(ValoTheme.BUTTON_PRIMARY);
 	}
 	
 	private void setGridPizza() {
@@ -155,7 +152,6 @@ public class VaadinUI extends UI{
 
 	private void setTitleContent() {
 		titleContent.addComponent(new Label("Bienvenido a Pizzería Borrego!"));
-		titleContent.addComponent(refresh);
 	}
 
 	private void setDataContent() {

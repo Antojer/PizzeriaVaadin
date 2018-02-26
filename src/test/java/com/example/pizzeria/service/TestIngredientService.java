@@ -40,7 +40,6 @@ public class TestIngredientService {
 		Mockito.when(ingredientDao.findOne(ID)).thenReturn(INGREDIENT);
 		Mockito.when(ingredientDao.findAll()).thenReturn(LIST_INGREDIENTS);
 		Mockito.when(ingredientDao.save(INGREDIENT)).thenReturn(INGREDIENT);
-		
 	}
 	
 	@Test
@@ -54,7 +53,7 @@ public class TestIngredientService {
 	
 	@Test(expected = NotFoundException.class)
 	public void testFindIngredientError() throws NotFoundException {
-		ingredientService.findById("Borrego");
+		ingredientService.findById("WRONG_ID");
 	}
 	
 	@Test
@@ -68,7 +67,7 @@ public class TestIngredientService {
 	
 
 	@Test(expected = NotFoundException.class)
-	public void testFindAllIngredientsError() throws NotFoundException {
+	public void testFindAllIngredientsError() throws NotFoundException { 
 		Mockito.when(ingredientDao.findAll()).thenReturn(null);
 		
 		final List<Ingredient> ingredients = ingredientService.findAll();
@@ -94,8 +93,20 @@ public class TestIngredientService {
 		Assert.assertNotNull(ingredient);	
 	}
 	
-	public void testDeleteIngredientOk() {
+	@Test
+	public void testUpdateIngredientOk() throws InvalidDataException {
+		Ingredient ingredient = INGREDIENT;
+		INGREDIENT.setName("NEW_NAME");
+		ingredientService.update(ID, ingredient);
+	}
+	
+	@Test(expected = InvalidDataException.class)
+	public void testUpdateIngredientError() throws InvalidDataException {
+		ingredientService.update(ID, new Ingredient());
+	}
 		
+	public void testDeleteIngredient() {
+		ingredientService.delete(ID);
 	}
 	
 }

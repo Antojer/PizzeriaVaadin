@@ -41,6 +41,7 @@ public class VaadinUI extends UI{
 	Grid<Ingredient> gridIngredient = new Grid<>();
 	Grid<Pizza> gridPizza = new Grid<>();
 	
+
 	/*
 	 * LAYOUTS
 	 */
@@ -48,7 +49,7 @@ public class VaadinUI extends UI{
 	VerticalLayout ingredientElimination = new VerticalLayout();
 	HorizontalLayout ingredientModifications = new HorizontalLayout();
 	VerticalLayout ingredientContent = new VerticalLayout();
-	
+
 	VerticalLayout pizzaAddition = new VerticalLayout();
 	VerticalLayout pizzaElimination = new VerticalLayout();
 	HorizontalLayout pizzaModification = new HorizontalLayout();
@@ -69,11 +70,11 @@ public class VaadinUI extends UI{
 	 * Buttons
 	 */
 	Button refresh = new Button("Actualizar las Listas.", this::refresh);
-	Button addIngredientButton = new Button("Add ingredient", event -> addIngredient());
-	Button deleteIngredientButton = new Button("Delete ingredient", event ->  deleteIngredient());
-	Button addPizzaButton = new Button("Add pizza", event ->  savePizza());
-	Button deletePizzaButton = new Button("Delete pizza", event ->  deletePizza());
-	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  addIngredientToPizza());
+	Button addIngredientButton = new Button("Add ingredient", event -> addIngredient(event));
+	Button deleteIngredientButton = new Button("Delete ingredient", event ->  deleteIngredient(event));
+	Button addPizzaButton = new Button("Add pizza", event ->  savePizza(event));
+	Button deletePizzaButton = new Button("Delete pizza", event ->  deletePizza(event));
+	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  addIngredientToPizza(event));
 	
 	/*
 	 * TextFields
@@ -87,9 +88,7 @@ public class VaadinUI extends UI{
 
 	@Override
 	protected void init(VaadinRequest request) {
-		/*
-		 * 
-		 */
+	
 		buttonFormat();
 		
 		/*
@@ -98,17 +97,14 @@ public class VaadinUI extends UI{
 		setIngredientContent();
 		setPizzaContent();
 		setWebContent();
-		
-		/*
-		 * Vaadin content setting
-		 */
-		setContent(webContent);
-		
+
 		/*
 		 * GRIDS
 		 */
 		setGridIngredient();		
 		setGridPizza();
+		
+		setContent(webContent);
 
 	}
 
@@ -236,17 +232,22 @@ public class VaadinUI extends UI{
 		ingredientElimination.addComponent(deleteIngredientButton);
 	}
 	
-	public void savePizza() {
+	public void savePizza(ClickEvent clickEvent) {
 		Pizza pizza = new Pizza();
 		pizza.setName(pizzaNameTF.getValue());
 		pizzaDao.save(pizza);
+		this.refresh(clickEvent);
 	}
 	
-	public void addIngredientToPizza() {
+
+
+
+	public void addIngredientToPizza(ClickEvent clickEvent) {
 		Pizza pizza = pizzaDao.findOne(pizzaIdTF.getValue());
 		Ingredient ingredient = ingredientDao.findOne(pizzaIngredientIdTF.getValue());
 		pizza.getIngredients().add(ingredient);
 		pizzaDao.save(pizza);
+		this.refresh(clickEvent);
 	}
 	
 	public void refresh(ClickEvent clickEvent) {
@@ -262,20 +263,27 @@ public class VaadinUI extends UI{
 		gridPizza.setItems(pizzaDao.findAll());
 	}
 	
-	private void addIngredient(){
+	private void addIngredient(ClickEvent clickEvent){
 		Ingredient ingredient = new Ingredient();
 		ingredient.setName(ingredientNameTF.getValue());
 		ingredientDao.save(ingredient);
+		this.refresh(clickEvent);
 	}
 	
-	private void deleteIngredient()
+	private void deleteIngredient(ClickEvent clickEvent)
 	{
+
 		ingredientDao.delete(ingredientIdDeleteTF.getValue());
+		this.refresh(clickEvent);
+
 	}
 
-	private void deletePizza() 
+	private void deletePizza(ClickEvent clickEvent) 
 	{
+
 		pizzaDao.delete(pizzaIdDeleteTF.getValue());
+		this.refresh(clickEvent);
+
 	}
 	
 }

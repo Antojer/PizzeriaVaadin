@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.pizzeria.dao.IngredientDAO;
 import com.example.pizzeria.model.Ingredient;
 
+import Exception.InvalidDataException;
 import Exception.NotFoundException;
 
 @Service
@@ -19,21 +20,27 @@ public class IngredientServiceImpl implements IngredientService {
 
 	@Override
 	public Ingredient findById(String id) throws NotFoundException {
-		final Ingredient ingredient = Optional.ofNullable(ingredientDAO.findOne(id))
-										  .orElseThrow(NotFoundException::new);
-		return ingredient;
+		final Ingredient ingredient = ingredientDAO.findOne(id);
+		return Optional.ofNullable(ingredient).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
-	public List<Ingredient> findAll() {
-		return ingredientDAO.findAll();
+	public List<Ingredient> findAll() throws NotFoundException {
+		final List<Ingredient> ingredients = ingredientDAO.findAll();
+		return Optional.ofNullable(ingredients).orElseThrow(NotFoundException::new);
 	}
 
 	@Override
-	public Ingredient create(Ingredient ingredient) {
-		return ingredientDAO.save(ingredient);
+	public Ingredient create(Ingredient ingredient) throws InvalidDataException {
+		if (validate(ingredient))
+			return ingredientDAO.save(ingredient);
+		throw new InvalidDataException("Error, faltan datos");
 	}
 
+	private boolean validate(Ingredient ingredient) {
+		return (ingredient != null && ingredient.getName() != null && ingredient.getName() != "");
+	}
+	
 	@Override
 	public void update(String id, Ingredient ingredient) {
 		final Ingredient newIngredient = ingredient;
@@ -44,6 +51,6 @@ public class IngredientServiceImpl implements IngredientService {
 	@Override
 	public void delete(String idIngredient) {
 		ingredientDAO.delete(idIngredient);
-}
+	}
 
 }

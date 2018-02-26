@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.service.ingredient.IngredientService;
 
+import Exception.InvalidDataException;
 import Exception.NotFoundException;
 
 @RestController
@@ -24,7 +24,7 @@ public class IngredientController {
 	private IngredientService ingredientService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Ingredient> retrieveAll()
+	public List<Ingredient> retrieveAll() throws NotFoundException
 	{
 		return ingredientService.findAll();
 	}
@@ -36,7 +36,7 @@ public class IngredientController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public Ingredient create(@RequestBody Ingredient ingredient)
+	public Ingredient create(@RequestBody Ingredient ingredient) throws InvalidDataException
 	{
 		return ingredientService.create(ingredient);
 	}

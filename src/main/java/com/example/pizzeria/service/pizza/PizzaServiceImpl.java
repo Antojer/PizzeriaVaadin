@@ -34,18 +34,18 @@ public class PizzaServiceImpl implements PizzaService{
 	public Pizza create(Pizza pizza) throws InvalidDataException {
 		if(validate(pizza))
 			return pizzaDao.save(pizza);
-		throw new InvalidDataException("Error, no hay datos suficientes");
+		throw new InvalidDataException("Error, faltan datos");
 	}
 	
 	private boolean validate(Pizza pizza) {
-		return (pizza != null && pizza.getName() != null);
+		return (pizza != null && pizza.getName() != null && pizza.getName() != "");
 	}
 	
 	@Override
 	public void update(Pizza pizza) throws InvalidDataException {
 		if(validate(pizza))
 			pizzaDao.save(pizza);
-		throw new InvalidDataException("Error, no hay datos suficientes");
+		throw new InvalidDataException("Error, faltan datos");
 	}
 	
 	@Override

@@ -2,9 +2,6 @@ package com.example.pizzeria;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.pizzeria.dao.IngredientDAO;
-import com.example.pizzeria.dao.PizzaDAO;
-import com.example.pizzeria.exception.NotFoundExcept;
 import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.ingredient.IngredientService;
@@ -19,6 +16,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -72,14 +70,40 @@ public class VaadinUI extends UI{
 	/*
 	 * Buttons
 	 */
-	Button addIngredientButton = new Button("Add ingredient", event -> saveIngredient(event));
-	Button deleteIngredientButton = new Button("Delete ingredient", event ->  deleteIngredient(event));
-	Button addPizzaButton = new Button("Add pizza", event ->  savePizza(event));
-	Button deletePizzaButton = new Button("Delete pizza", event ->  deletePizza(event));
-	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  {try {
+	Button addIngredientButton = new Button("Add ingredient", event -> {
+		try {
+			saveIngredient(event);
+		} catch (InvalidDataException | NotFoundException e) {
+			Notification.show(e.getMessage());
+		}
+	});
+	Button deleteIngredientButton = new Button("Delete ingredient", event ->  {
+		try {
+			deleteIngredient(event);
+		} catch (NotFoundException e) {
+			Notification.show(e.getMessage());
+		}
+	});
+	Button addPizzaButton = new Button("Add pizza", event ->  {
+		try {
+			savePizza(event);
+		} catch (InvalidDataException | NotFoundException e) {
+			Notification.show(e.getMessage());
+		}
+	});
+	Button deletePizzaButton = new Button("Delete pizza", event ->  {
+		try {
+			deletePizza(event);
+		} catch (NotFoundException e) {
+			Notification.show(e.getMessage());
+		}
+	});
+	
+	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  {
+	try {
 		saveIngredientToPizza(event);
 	} catch (NotFoundException | InvalidDataException e) {
-		e.printStackTrace();
+		Notification.show(e.getMessage());
 	}});
 	
 	/*
@@ -112,8 +136,18 @@ public class VaadinUI extends UI{
 		/*
 		 * GRIDS
 		 */
-		setGridIngredient();		
-		setGridPizza();
+		try {
+			setGridIngredient();
+		} catch (NotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}		
+		try {
+			setGridPizza();
+		} catch (NotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		setContent(webContent);
 
@@ -136,7 +170,7 @@ public class VaadinUI extends UI{
 		listPizzas();
 	}
 
-	private void setGridIngredient() {
+	private void setGridIngredient() throws NotFoundException {
 		gridIngredient.addColumn(ingredient -> ingredient.getId()).setCaption("Ingredient ID");
 		gridIngredient.addColumn(ingredient -> ingredient.getName()).setCaption("Name");
 		listIngredients();
@@ -260,7 +294,7 @@ public class VaadinUI extends UI{
 		listPizzas();
 	}
 	
-	private void listIngredients() {
+	private void listIngredients() throws NotFoundException {
 		gridIngredient.setItems(ingredientService.findAll());
 	}
 	
@@ -268,7 +302,7 @@ public class VaadinUI extends UI{
 		gridPizza.setItems(pizzaService.findAll());
 	}
 	
-	private void saveIngredient(ClickEvent clickEvent) throws NotFoundException{
+	private void saveIngredient(ClickEvent clickEvent) throws InvalidDataException, NotFoundException{
 		Ingredient ingredient = new Ingredient();
 		ingredient.setName(ingredientNameTF.getValue());
 		ingredientService.create(ingredient);

@@ -16,7 +16,7 @@ public interface IngredientService {
 	
 	Ingredient create(Ingredient ingredient) throws InvalidDataException;
 	
-	void update(String id, Ingredient ingredient);
+	void update(String id, Ingredient ingredient) throws InvalidDataException;
 	
 	void delete(String idIngredient);
 }

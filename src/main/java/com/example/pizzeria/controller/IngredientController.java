@@ -42,7 +42,7 @@ public class IngredientController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable("id") String id, @RequestBody Ingredient ingredient)
+	public void update(@PathVariable("id") String id, @RequestBody Ingredient ingredient) throws InvalidDataException
 	{
 		ingredientService.update(id,ingredient);
 	}

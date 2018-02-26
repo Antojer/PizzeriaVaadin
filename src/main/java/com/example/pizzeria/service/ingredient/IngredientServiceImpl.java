@@ -43,10 +43,14 @@ public class IngredientServiceImpl implements IngredientService {
 	}
 	
 	@Override
-	public void update(String id, Ingredient ingredient) {
+	public void update(String id, Ingredient ingredient) throws InvalidDataException {
 		final Ingredient newIngredient = ingredient;
 		newIngredient.setId(id);
-		ingredientDAO.save(newIngredient);
+		
+		if (validate(ingredient))
+			ingredientDAO.save(newIngredient);
+		else
+			throw new InvalidDataException("Error, faltan datos");
 	}
 
 	@Override

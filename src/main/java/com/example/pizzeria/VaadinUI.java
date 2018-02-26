@@ -84,11 +84,16 @@ public class VaadinUI extends UI{
 	private TextField pizzaIngredientIdTF = new TextField("Ingredient id");
 	private TextField pizzaIdDeleteTF = new TextField("Pizza id");
 	private TextField ingredientIdDeleteTF = new TextField("Ingredient id");
+	
+	/*
+	 * Labels
+	 */
+	Label title = new Label("Bienvenido a Pizzería Borrego!");
 
 	@Override
 	protected void init(VaadinRequest request) {
 	
-		buttonFormat();
+		buttonsAndLabelsFormat();
 		
 		/*
 		 * LAYOUTS
@@ -107,13 +112,14 @@ public class VaadinUI extends UI{
 
 	}
 
-	private void buttonFormat()
+	private void buttonsAndLabelsFormat()
 	{
 		addIngredientButton.setIcon(VaadinIcons.CHECK_CIRCLE);
 		deleteIngredientButton.setIcon(VaadinIcons.CLOSE_CIRCLE);
 		addPizzaButton.setIcon(VaadinIcons.CHECK_CIRCLE);
 		deletePizzaButton.setIcon(VaadinIcons.CLOSE_CIRCLE);
 		addIngredientToPizzaButton.setIcon(VaadinIcons.CHECK_CIRCLE);
+		title.addStyleName(ValoTheme.LABEL_HUGE);
 	}
 	
 	private void setGridPizza() {
@@ -151,7 +157,7 @@ public class VaadinUI extends UI{
 	}
 
 	private void setTitleContent() {
-		titleContent.addComponent(new Label("Bienvenido a Pizzería Borrego!"));
+		titleContent.addComponent(title);
 	}
 
 	private void setDataContent() {

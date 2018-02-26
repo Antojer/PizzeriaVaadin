@@ -30,22 +30,16 @@ public class VaadinUI extends UI{
 	
 	@Autowired
 	IngredientDAO ingredientDao;
-	
 	@Autowired
 	PizzaDAO pizzaDao;
-
-	Grid<Ingredient> gridIngredient = new Grid<>();
-	
-	Grid<Pizza> gridPizza = new Grid<>();
-	
 	@Autowired
 	IngredientService ingredientService;
 	
-	private Button refresh = new Button("Actualizar las Listas.", this::refresh);
-		
-	TextField name = new TextField("Ingredient name");
-	
-	Button save = new Button("Add ingredient", event -> addIngredient());
+	/*
+	 * Grids
+	 */
+	Grid<Ingredient> gridIngredient = new Grid<>();
+	Grid<Pizza> gridPizza = new Grid<>();
 	
 	/*
 	 * LAYOUTS
@@ -74,152 +68,183 @@ public class VaadinUI extends UI{
 	/*
 	 * Buttons
 	 */
-	Button deleteIngredient = new Button("Eliminar", event ->  deleteIngredient());
-	Button savePizza = new Button("Guardar", event ->  savePizza());
-	Button deletePizza = new Button("Eliminar", event ->  deletePizza());
+	Button refresh = new Button("Actualizar las Listas.", this::refresh);
+	Button addIngredientButton = new Button("Add ingredient", event -> addIngredient());
+	Button deleteIngredientButton = new Button("Delete ingredient", event ->  deleteIngredient());
+	Button addPizzaButton = new Button("Add pizza", event ->  savePizza());
+	Button deletePizzaButton = new Button("Delete pizza", event ->  deletePizza());
+	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  addIngredientToPizza());
 	
-	
-	
-	private TextField nameField = new TextField("Pizza name");
-	private TextField idFieldPizza = new TextField("Pizza id");
-	private TextField idFieldIngredientForPizza = new TextField("Ingredient id");
-	private TextField idPizzaDelete = new TextField("Pizza id");
-	private TextField idIngredientDelete = new TextField("Ingredient id");
-	
-	private Label title = new Label("Bienvenido a Pizzería Borrego!");
-	
+	/*
+	 * TextFields
+	 */
+	private TextField ingredientNameTF = new TextField("Ingredient name");
+	private TextField pizzaNameTF = new TextField("Pizza name");
+	private TextField pizzaIdTF = new TextField("Pizza id");
+	private TextField pizzaIngredientIdTF = new TextField("Ingredient id");
+	private TextField pizzaIdDeleteTF = new TextField("Pizza id");
+	private TextField ingredientIdDeleteTF = new TextField("Ingredient id");
+
 	@Override
 	protected void init(VaadinRequest request) {
+		/*
+		 * 
+		 */
+		buttonFormat();
 		
 		/*
 		 * LAYOUTS
 		 */
-		VerticalLayout ingredientAddition = new VerticalLayout();
-		ingredientAddition.addComponent(new Label("Añadir ingrediente"));
-		save.setIcon(VaadinIcons.CHECK_CIRCLE);
-		ingredientAddition.addComponent(name);
-		ingredientAddition.addComponent(save);
+		setIngredientContent();
+		setPizzaContent();
+		setWebContent();
 		
-		VerticalLayout ingredientElimination = new VerticalLayout();
-		ingredientElimination.addComponent(new Label("Eliminar ingrediente"));
-		ingredientElimination.addComponent(idIngredientDelete);
-		Button deleteIngredient = new Button("Eliminar", event ->  deleteIngredient());
-		deleteIngredient.setIcon(VaadinIcons.CLOSE_CIRCLE);
-		ingredientElimination.addComponent(deleteIngredient);
-		
-		HorizontalLayout ingredientModifications = new HorizontalLayout();
-		ingredientModifications.addComponent(ingredientAddition);
-		ingredientModifications.addComponent(ingredientElimination);
-		
-		VerticalLayout ingredientContent = new VerticalLayout();
-		ingredientContent.addComponent(gridIngredient);
-		ingredientContent.addComponent(ingredientModifications);
-		
-		
-		
-		setIngredientLayout();
-
-		VerticalLayout pizzaAddition = new VerticalLayout();
-		pizzaAddition.addComponent(new Label("Añadir pizza"));
-		pizzaAddition.addComponent(nameField);
-		Button savePizza = new Button("Guardar", event ->  savePizza());
-		savePizza.setIcon(VaadinIcons.CHECK_CIRCLE);
-		pizzaAddition.addComponent(savePizza);
-		
-		VerticalLayout pizzaElimination = new VerticalLayout();
-		pizzaElimination.addComponent(new Label("Eliminar pizza"));
-		pizzaElimination.addComponent(idPizzaDelete);
-		Button deletePizza = new Button("Eliminar", event ->  deletePizza());
-		deletePizza.setIcon(VaadinIcons.CLOSE_CIRCLE);
-		pizzaElimination.addComponent(deletePizza);
-		
-		HorizontalLayout pizzaModification = new HorizontalLayout();
-		pizzaModification.addComponent(pizzaAddition);
-		pizzaModification.addComponent(pizzaElimination);
-		
-		HorizontalLayout pizzaIngredientAddition = new HorizontalLayout();
-		pizzaIngredientAddition.addComponent(idFieldPizza);
-		pizzaIngredientAddition.addComponent(idFieldIngredientForPizza);
-		
-		VerticalLayout pizzaIngredients = new VerticalLayout();
-		pizzaIngredients.addComponent(new Label("Añadir ingrediente a pizza"));
-		pizzaIngredients.addComponent(pizzaIngredientAddition);
-		Button addIngredientToPizza = new Button("Añadir Ingrediente", event ->  addIngredientToPizza());
-		addIngredientToPizza.setIcon(VaadinIcons.CHECK_CIRCLE);
-		pizzaIngredients.addComponent(addIngredientToPizza);
-		
-		VerticalLayout pizzaContent = new VerticalLayout();
-		pizzaContent.addComponent(gridPizza);
-		pizzaContent.addComponent(pizzaModification);
-		pizzaContent.addComponent(pizzaIngredients);
-		setPizzaLayout();
-		
-		HorizontalLayout dataContent = new HorizontalLayout();
-		dataContent.addComponent(pizzaContent);
-		dataContent.addComponent(ingredientContent);
-		
-		
-		VerticalLayout titleContent = new VerticalLayout();
-		titleContent.addComponent(title);
-		
-		VerticalLayout refreshContent = new VerticalLayout();
-		HorizontalLayout refreshHorizontalContent = new HorizontalLayout();
-		refreshContent.addComponent(refreshHorizontalContent);
-		titleContent.addComponent(refresh);
-		
-		HorizontalLayout headerContent = new HorizontalLayout();
-		headerContent.addComponent(titleContent);
-		headerContent.addComponent(refreshContent);
-			
-		VerticalLayout webContent = new VerticalLayout();
-		webContent.addComponent(headerContent);
-		webContent.addComponent(dataContent);
-		
-		refreshContent.setComponentAlignment(refreshHorizontalContent, Alignment.TOP_CENTER);
-		webContent.setComponentAlignment(headerContent, Alignment.TOP_CENTER);
-		webContent.setComponentAlignment(dataContent, Alignment.TOP_CENTER);
+		/*
+		 * Vaadin content setting
+		 */
 		setContent(webContent);
 		
-		gridIngredient.addColumn(ingredient -> ingredient.getId()).setCaption("Ingredient ID");
-		gridIngredient.addColumn(ingredient -> ingredient.getName()).setCaption("Name");
-		
+		/*
+		 * GRIDS
+		 */
+		setGridIngredient();		
+		setGridPizza();
+
+	}
+
+	private void buttonFormat()
+	{
+		addIngredientButton.setIcon(VaadinIcons.CHECK_CIRCLE);
+		deleteIngredientButton.setIcon(VaadinIcons.CLOSE_CIRCLE);
+		addPizzaButton.setIcon(VaadinIcons.CHECK_CIRCLE);
+		deletePizzaButton.setIcon(VaadinIcons.CLOSE_CIRCLE);
+		addIngredientToPizzaButton.setIcon(VaadinIcons.CHECK_CIRCLE);
 		refresh.setIcon(VaadinIcons.REFRESH);
 		refresh.addStyleName(ValoTheme.BUTTON_PRIMARY);
-		
+	}
+	
+	private void setGridPizza() {
 		gridPizza.addColumn(ingredient -> ingredient.getId()).setCaption("Pizza ID");
 		gridPizza.addColumn(ingredient -> ingredient.getName()).setCaption("Name");
 		gridPizza.addColumn(ingredient -> ingredient.ingredientsToString()).setCaption("Ingredients").setExpandRatio(1);
-		
-		refresh.setIcon(VaadinIcons.REFRESH);
-		refresh.addStyleName(ValoTheme.BUTTON_PRIMARY);
-			
-		listIngredients();
 		listPizzas();
-		
-	}
-	
-	
-
-	private void setIngredientLayout() {
-		
-		
-		
-		
 	}
 
-	private void setPizzaLayout() {
+	private void setGridIngredient() {
+		gridIngredient.addColumn(ingredient -> ingredient.getId()).setCaption("Ingredient ID");
+		gridIngredient.addColumn(ingredient -> ingredient.getName()).setCaption("Name");
+		listIngredients();
+	}
+
+	private void setWebContent() {
+		setDataContent();
+		setTitleContent();
+		setRefreshContent();
+		setHeaderContent();
 		
+		webContent.addComponent(headerContent);
+		webContent.addComponent(dataContent);
+		//webContent.setComponentAlignment(headerContent, Alignment.TOP_CENTER);
+		//webContent.setComponentAlignment(dataContent, Alignment.TOP_CENTER);
+	}
+
+	private void setHeaderContent() {
+		headerContent.addComponent(titleContent);
+		headerContent.addComponent(refreshContent);
+	}
+
+	private void setRefreshContent() {
+		//refreshContent.setComponentAlignment(refreshHorizontalContent, Alignment.TOP_CENTER);
+		refreshContent.addComponent(refreshHorizontalContent);
+	}
+
+	private void setTitleContent() {
+		titleContent.addComponent(new Label("Bienvenido a Pizzería Borrego!"));
+		titleContent.addComponent(refresh);
+	}
+
+	private void setDataContent() {
+		dataContent.addComponent(pizzaContent);
+		dataContent.addComponent(ingredientContent);
+	}
+
+	private void setPizzaContent() {
+		
+		setPizzaAddition();
+		setPizzaElimination();
+		setPizzaModification();
+		setPizzaIngredientAddition();
+		setPizzaIngredients();
+		
+		pizzaContent.addComponent(gridPizza);
+		pizzaContent.addComponent(pizzaModification);
+		pizzaContent.addComponent(pizzaIngredients);
+	}
+
+	private void setPizzaIngredients() {
+		pizzaIngredients.addComponent(new Label("Añadir ingrediente a pizza"));
+		pizzaIngredients.addComponent(pizzaIngredientAddition);
+		pizzaIngredients.addComponent(addIngredientToPizzaButton);
+	}
+
+	private void setPizzaIngredientAddition() {
+		pizzaIngredientAddition.addComponent(pizzaIdTF);
+		pizzaIngredientAddition.addComponent(pizzaIngredientIdTF);
+	}
+
+	private void setPizzaModification() {
+		pizzaModification.addComponent(pizzaAddition);
+		pizzaModification.addComponent(pizzaElimination);
+	}
+
+	private void setPizzaElimination() {
+		pizzaElimination.addComponent(new Label("Eliminar pizza"));
+		pizzaElimination.addComponent(pizzaIdDeleteTF);
+		pizzaElimination.addComponent(deletePizzaButton);
+	}
+
+	private void setPizzaAddition() {
+		pizzaAddition.addComponent(new Label("Añadir pizza"));
+		pizzaAddition.addComponent(pizzaNameTF);
+		pizzaAddition.addComponent(addPizzaButton);
+	}
+
+	private void setIngredientContent() {
+		
+		setIngredientAddition();
+		setIngredientElimination();
+		setIngredientsModification();
+		
+		ingredientContent.addComponent(gridIngredient);
+		ingredientContent.addComponent(ingredientModifications);
+	}
+
+	private void setIngredientsModification() {
+		ingredientModifications.addComponent(ingredientAddition);
+		ingredientModifications.addComponent(ingredientElimination);
+	}
+	
+	private void setIngredientAddition() {
+		ingredientAddition.addComponent(new Label("Añadir ingrediente"));
+		ingredientAddition.addComponent(ingredientNameTF);
+		ingredientAddition.addComponent(addIngredientButton);
+	}
+
+	private void setIngredientElimination() {
+		ingredientElimination.addComponent(new Label("Eliminar ingrediente"));
+		ingredientElimination.addComponent(ingredientIdDeleteTF);
+		ingredientElimination.addComponent(deleteIngredientButton);
 	}
 	
 	public void savePizza() {
 		Pizza pizza = new Pizza();
-		pizza.setName(nameField.getValue());
+		pizza.setName(pizzaNameTF.getValue());
 		pizzaDao.save(pizza);
 	}
 	
 	public void addIngredientToPizza() {
-		Pizza pizza = pizzaDao.findOne(idFieldPizza.getValue());
-		Ingredient ingredient = ingredientDao.findOne(idFieldIngredientForPizza.getValue());
+		Pizza pizza = pizzaDao.findOne(pizzaIdTF.getValue());
+		Ingredient ingredient = ingredientDao.findOne(pizzaIngredientIdTF.getValue());
 		pizza.getIngredients().add(ingredient);
 		pizzaDao.save(pizza);
 	}
@@ -239,18 +264,18 @@ public class VaadinUI extends UI{
 	
 	private void addIngredient(){
 		Ingredient ingredient = new Ingredient();
-		ingredient.setName(name.getValue());
+		ingredient.setName(ingredientNameTF.getValue());
 		ingredientDao.save(ingredient);
 	}
 	
 	private void deleteIngredient()
 	{
-		ingredientDao.delete(idIngredientDelete.getValue());
+		ingredientDao.delete(ingredientIdDeleteTF.getValue());
 	}
 
 	private void deletePizza() 
 	{
-		pizzaDao.delete(idPizzaDelete.getValue());
+		pizzaDao.delete(pizzaIdDeleteTF.getValue());
 	}
 	
 }

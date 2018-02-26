@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.pizza.PizzaService;
 
+import Exception.InvalidDataException;
+import Exception.NotFoundException;
+
 @RestController
 @RequestMapping(value = "/api/pizza")
 public class PizzaController {
@@ -20,22 +23,22 @@ public class PizzaController {
 	PizzaService pizzaService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Pizza> getAll() {
+	public List<Pizza> getAll() throws NotFoundException {
 		return pizzaService.findAll();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Pizza getById(@PathVariable(value="id") String id) {
+	public Pizza getById(@PathVariable(value="id") String id) throws NotFoundException {
 		return pizzaService.findById(id);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public Pizza create(@RequestBody Pizza pizza) {
+	public Pizza create(@RequestBody Pizza pizza) throws InvalidDataException {
 		return pizzaService.create(pizza);
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)
-	public void update(@RequestBody Pizza pizza) {
+	public void update(@RequestBody Pizza pizza) throws InvalidDataException {
 		pizzaService.update(pizza);
 	}
 	

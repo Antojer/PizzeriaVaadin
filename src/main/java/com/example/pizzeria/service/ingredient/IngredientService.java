@@ -10,7 +10,7 @@ public interface IngredientService {
 	
 	Ingredient findById(String id) throws NotFoundExcept;
 	
-	List<Ingredient> findAll(Integer page, Integer size);
+	List<Ingredient> findAll();
 	
 	Ingredient create(Ingredient ingredient);
 	

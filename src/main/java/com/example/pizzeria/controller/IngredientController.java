@@ -23,9 +23,9 @@ public class IngredientController {
 	private IngredientService ingredientService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Ingredient> retrieveAll(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size)
+	public List<Ingredient> retrieveAll()
 	{
-		return ingredientService.findAll(size, size);
+		return ingredientService.findAll();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -16,4 +16,9 @@ public class NotFoundExcept extends Exception{
 		super(errorMsg);
 	}
 
+	public static String getErrorMsg() {
+		return errorMsg;
+	}
+
+	
 }

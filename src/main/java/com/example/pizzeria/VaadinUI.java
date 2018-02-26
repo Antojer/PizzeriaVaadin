@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.pizzeria.dao.IngredientDAO;
 import com.example.pizzeria.dao.PizzaDAO;
+import com.example.pizzeria.exception.NotFoundExcept;
 import com.example.pizzeria.model.Ingredient;
 import com.example.pizzeria.model.Pizza;
 import com.example.pizzeria.service.ingredient.IngredientService;
+import com.example.pizzeria.service.pizza.PizzaService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.VaadinRequest;
@@ -29,11 +31,9 @@ public class VaadinUI extends UI{
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-	IngredientDAO ingredientDao;
-	@Autowired
-	PizzaDAO pizzaDao;
-	@Autowired
 	IngredientService ingredientService;
+	@Autowired
+	PizzaService pizzaService;
 	
 	/*
 	 * Grids
@@ -69,11 +69,17 @@ public class VaadinUI extends UI{
 	/*
 	 * Buttons
 	 */
-	Button addIngredientButton = new Button("Add ingredient", event -> addIngredient(event));
+	Button addIngredientButton = new Button("Add ingredient", event -> saveIngredient(event));
 	Button deleteIngredientButton = new Button("Delete ingredient", event ->  deleteIngredient(event));
 	Button addPizzaButton = new Button("Add pizza", event ->  savePizza(event));
 	Button deletePizzaButton = new Button("Delete pizza", event ->  deletePizza(event));
-	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  addIngredientToPizza(event));
+	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  {
+		try {
+			saveIngredientToPizza(event);
+		} catch (NotFoundExcept e) {
+			NotFoundExcept.getErrorMsg();
+		}
+	});
 	
 	/*
 	 * TextFields
@@ -236,18 +242,15 @@ public class VaadinUI extends UI{
 	public void savePizza(ClickEvent clickEvent) {
 		Pizza pizza = new Pizza();
 		pizza.setName(pizzaNameTF.getValue());
-		pizzaDao.save(pizza);
+		pizzaService.create(pizza);
 		this.refresh(clickEvent);
 	}
 	
-
-
-
-	public void addIngredientToPizza(ClickEvent clickEvent) {
-		Pizza pizza = pizzaDao.findOne(pizzaIdTF.getValue());
-		Ingredient ingredient = ingredientDao.findOne(pizzaIngredientIdTF.getValue());
+	public void saveIngredientToPizza(ClickEvent clickEvent) throws NotFoundExcept {
+		Pizza pizza = pizzaService.findById(pizzaIdTF.getValue());
+		Ingredient ingredient = ingredientService.findById(pizzaIngredientIdTF.getValue());
 		pizza.getIngredients().add(ingredient);
-		pizzaDao.save(pizza);
+		pizzaService.create(pizza);
 		this.refresh(clickEvent);
 	}
 	
@@ -257,24 +260,24 @@ public class VaadinUI extends UI{
 	}
 	
 	private void listIngredients() {
-		gridIngredient.setItems(ingredientDao.findAll());
+		gridIngredient.setItems(ingredientService.findAll());
 	}
 	
 	private void listPizzas() {
-		gridPizza.setItems(pizzaDao.findAll());
+		gridPizza.setItems(pizzaService.findAll());
 	}
 	
-	private void addIngredient(ClickEvent clickEvent){
+	private void saveIngredient(ClickEvent clickEvent){
 		Ingredient ingredient = new Ingredient();
 		ingredient.setName(ingredientNameTF.getValue());
-		ingredientDao.save(ingredient);
+		ingredientService.create(ingredient);
 		this.refresh(clickEvent);
 	}
 	
 	private void deleteIngredient(ClickEvent clickEvent)
 	{
 
-		ingredientDao.delete(ingredientIdDeleteTF.getValue());
+		ingredientService.delete(ingredientIdDeleteTF.getValue());
 		this.refresh(clickEvent);
 
 	}
@@ -282,7 +285,7 @@ public class VaadinUI extends UI{
 	private void deletePizza(ClickEvent clickEvent) 
 	{
 
-		pizzaDao.delete(pizzaIdDeleteTF.getValue());
+		pizzaService.delete(pizzaIdDeleteTF.getValue());
 		this.refresh(clickEvent);
 
 	}

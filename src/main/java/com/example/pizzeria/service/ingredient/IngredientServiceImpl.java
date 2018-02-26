@@ -24,7 +24,7 @@ public class IngredientServiceImpl implements IngredientService {
 	}
 
 	@Override
-	public List<Ingredient> findAll(Integer page, Integer size) {
+	public List<Ingredient> findAll() {
 		return ingredientDAO.findAll();
 	}
 

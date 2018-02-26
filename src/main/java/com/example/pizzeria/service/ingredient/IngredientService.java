@@ -2,13 +2,14 @@ package com.example.pizzeria.service.ingredient;
 
 import java.util.List;
 
-import com.example.pizzeria.exception.NotFoundExcept;
 import com.example.pizzeria.model.Ingredient;
+
+import Exception.NotFoundException;
 
 
 public interface IngredientService {
 	
-	Ingredient findById(String id) throws NotFoundExcept;
+	Ingredient findById(String id) throws NotFoundException;
 	
 	List<Ingredient> findAll();
 	

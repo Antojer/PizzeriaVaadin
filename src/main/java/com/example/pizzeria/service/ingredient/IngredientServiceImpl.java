@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.pizzeria.dao.IngredientDAO;
-import com.example.pizzeria.exception.NotFoundExcept;
 import com.example.pizzeria.model.Ingredient;
+
+import Exception.NotFoundException;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
@@ -17,9 +18,9 @@ public class IngredientServiceImpl implements IngredientService {
 	private IngredientDAO ingredientDAO;
 
 	@Override
-	public Ingredient findById(String id) throws NotFoundExcept {
+	public Ingredient findById(String id) throws NotFoundException {
 		final Ingredient ingredient = Optional.ofNullable(ingredientDAO.findOne(id))
-										  .orElseThrow(() -> new NotFoundExcept("Ingrediente con id "+id+" no encontrado"));
+										  .orElseThrow(NotFoundException::new);
 		return ingredient;
 	}
 

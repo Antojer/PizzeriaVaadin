@@ -24,6 +24,9 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+import Exception.InvalidDataException;
+import Exception.NotFoundException;
+
 @SpringUI
 @Theme("valo")
 public class VaadinUI extends UI{
@@ -73,13 +76,11 @@ public class VaadinUI extends UI{
 	Button deleteIngredientButton = new Button("Delete ingredient", event ->  deleteIngredient(event));
 	Button addPizzaButton = new Button("Add pizza", event ->  savePizza(event));
 	Button deletePizzaButton = new Button("Delete pizza", event ->  deletePizza(event));
-	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  {
-		try {
-			saveIngredientToPizza(event);
-		} catch (NotFoundExcept e) {
-			NotFoundExcept.getErrorMsg();
-		}
-	});
+	Button addIngredientToPizzaButton = new Button("Add ingredients", event ->  {try {
+		saveIngredientToPizza(event);
+	} catch (NotFoundException | InvalidDataException e) {
+		e.printStackTrace();
+	}});
 	
 	/*
 	 * TextFields
@@ -128,7 +129,7 @@ public class VaadinUI extends UI{
 		title.addStyleName(ValoTheme.LABEL_HUGE);
 	}
 	
-	private void setGridPizza() {
+	private void setGridPizza() throws NotFoundException {
 		gridPizza.addColumn(ingredient -> ingredient.getId()).setCaption("Pizza ID");
 		gridPizza.addColumn(ingredient -> ingredient.getName()).setCaption("Name");
 		gridPizza.addColumn(ingredient -> ingredient.ingredientsToString()).setCaption("Ingredients").setExpandRatio(1);
@@ -239,14 +240,14 @@ public class VaadinUI extends UI{
 		ingredientElimination.addComponent(deleteIngredientButton);
 	}
 	
-	public void savePizza(ClickEvent clickEvent) {
+	public void savePizza(ClickEvent clickEvent) throws InvalidDataException, NotFoundException {
 		Pizza pizza = new Pizza();
 		pizza.setName(pizzaNameTF.getValue());
 		pizzaService.create(pizza);
 		this.refresh(clickEvent);
 	}
 	
-	public void saveIngredientToPizza(ClickEvent clickEvent) throws NotFoundExcept {
+	public void saveIngredientToPizza(ClickEvent clickEvent) throws NotFoundException, InvalidDataException {
 		Pizza pizza = pizzaService.findById(pizzaIdTF.getValue());
 		Ingredient ingredient = ingredientService.findById(pizzaIngredientIdTF.getValue());
 		pizza.getIngredients().add(ingredient);
@@ -254,7 +255,7 @@ public class VaadinUI extends UI{
 		this.refresh(clickEvent);
 	}
 	
-	public void refresh(ClickEvent clickEvent) {
+	public void refresh(ClickEvent clickEvent) throws NotFoundException {
 		listIngredients();
 		listPizzas();
 	}
@@ -263,18 +264,18 @@ public class VaadinUI extends UI{
 		gridIngredient.setItems(ingredientService.findAll());
 	}
 	
-	private void listPizzas() {
+	private void listPizzas() throws NotFoundException {
 		gridPizza.setItems(pizzaService.findAll());
 	}
 	
-	private void saveIngredient(ClickEvent clickEvent){
+	private void saveIngredient(ClickEvent clickEvent) throws NotFoundException{
 		Ingredient ingredient = new Ingredient();
 		ingredient.setName(ingredientNameTF.getValue());
 		ingredientService.create(ingredient);
 		this.refresh(clickEvent);
 	}
 	
-	private void deleteIngredient(ClickEvent clickEvent)
+	private void deleteIngredient(ClickEvent clickEvent) throws NotFoundException
 	{
 
 		ingredientService.delete(ingredientIdDeleteTF.getValue());
@@ -282,7 +283,7 @@ public class VaadinUI extends UI{
 
 	}
 
-	private void deletePizza(ClickEvent clickEvent) 
+	private void deletePizza(ClickEvent clickEvent) throws NotFoundException 
 	{
 
 		pizzaService.delete(pizzaIdDeleteTF.getValue());

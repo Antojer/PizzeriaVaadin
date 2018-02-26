@@ -106,7 +106,7 @@ public class VaadinUI extends UI{
 		Notification.show(e.getMessage());
 	}});
 	
-	/*
+	/* 
 	 * TextFields
 	 */
 	private TextField ingredientNameTF = new TextField("Ingredient name");
@@ -139,12 +139,12 @@ public class VaadinUI extends UI{
 		try {
 			setGridIngredient();
 		} catch (NotFoundException e1) {
-			e1.printStackTrace();
+			Notification.show(e1.getMessage());
 		}		
 		try {
 			setGridPizza();
 		} catch (NotFoundException e) {
-			e.printStackTrace();
+			Notification.show(e.getMessage());
 		}
 		
 		setContent(webContent);

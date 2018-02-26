@@ -46,7 +46,7 @@ public class IngredientServiceImpl implements IngredientService {
 	public void update(String id, Ingredient ingredient) {
 		final Ingredient newIngredient = ingredient;
 		newIngredient.setId(id);
-		ingredientDAO.save(ingredient);
+		ingredientDAO.save(newIngredient);
 	}
 
 	@Override

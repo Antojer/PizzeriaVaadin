@@ -47,6 +47,39 @@ public class VaadinUI extends UI{
 	
 	Button save = new Button("Add ingredient", event -> addIngredient());
 	
+	/*
+	 * LAYOUTS
+	 */
+	VerticalLayout ingredientAddition = new VerticalLayout();
+	VerticalLayout ingredientElimination = new VerticalLayout();
+	HorizontalLayout ingredientModifications = new HorizontalLayout();
+	VerticalLayout ingredientContent = new VerticalLayout();
+	
+	VerticalLayout pizzaAddition = new VerticalLayout();
+	VerticalLayout pizzaElimination = new VerticalLayout();
+	HorizontalLayout pizzaModification = new HorizontalLayout();
+	HorizontalLayout pizzaIngredientAddition = new HorizontalLayout();
+	VerticalLayout pizzaIngredients = new VerticalLayout();
+	VerticalLayout pizzaContent = new VerticalLayout();
+	
+	HorizontalLayout dataContent = new HorizontalLayout();
+	VerticalLayout titleContent = new VerticalLayout();
+	VerticalLayout refreshContent = new VerticalLayout();
+	HorizontalLayout refreshHorizontalContent = new HorizontalLayout();
+	HorizontalLayout headerContent = new HorizontalLayout();
+	
+	VerticalLayout webContent = new VerticalLayout();
+	
+	
+	/*
+	 * Buttons
+	 */
+	Button deleteIngredient = new Button("Eliminar", event ->  deleteIngredient());
+	Button savePizza = new Button("Guardar", event ->  savePizza());
+	Button deletePizza = new Button("Eliminar", event ->  deletePizza());
+	
+	
+	
 	private TextField nameField = new TextField("Pizza name");
 	private TextField idFieldPizza = new TextField("Pizza id");
 	private TextField idFieldIngredientForPizza = new TextField("Ingredient id");

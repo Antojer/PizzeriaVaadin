@@ -1,4 +1,4 @@
-package com.example.pizzeria.service;
+package com.example.pizzeria.mockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import Exception.InvalidDataException;
 import Exception.NotFoundException;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestPizzaService {
+public class TestPizzaServiceMockito {
 	
 	private final Pizza pizza = new Pizza();
 	private final List<Pizza> pizzas = new ArrayList<>();

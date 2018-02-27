@@ -1,4 +1,4 @@
-package com.example.pizzeria.service;
+package com.example.pizzeria.mockito;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import Exception.NotFoundException;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestIngredientService {
+public class TestIngredientServiceMockito {
 
 	private static final String ID = "5a93fb512d48f8fcbb12ab81";
 	private static final String NAME = "Chorizo";
